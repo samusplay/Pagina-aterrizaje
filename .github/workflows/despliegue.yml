@@ -2,7 +2,8 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["master"]  # Cambia a "main" si es tu rama principal
+    branches:
+      - "main"
 
 jobs:
   deploy:
@@ -12,8 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Bootstrap
+        run: |
+          npm init -y  # Asegura que haya un package.json
+          npm install bootstrap
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_tlanding  # Ruta de tu página estática
+          publish_dir: ./landing  # Asegúrate de que esta ruta es correcta
